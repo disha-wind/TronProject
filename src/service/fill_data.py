@@ -1,12 +1,18 @@
-from tronpy import Tron
+from decimal import Decimal
 
 from domain.address_query import AddressQuery
-from endpoints.tron import get_tron_balance, get_tron_bandwidth, get_tron_energy
+from endpoints.tron.abstract import AbstractTronClient
+from uow.abstract import AbstractUnitOfWork
 
 
-async def fill_data_from_tron_net(client: Tron, address: str) -> None:
+async def fill_data_from_tron_net(uow: AbstractUnitOfWork, client: AbstractTronClient, address: str)\
+        -> (Decimal, int, int):
     address_query = AddressQuery(address)
 
-    address_query.balance = await get_tron_balance(client, address_query.address)
-    address_query.bandwidth = await get_tron_bandwidth(client, address_query.address)
-    address_query.energy = await get_tron_energy(client, address_query.address)
+    with uow:
+        address_query.balance = await client.get_balance(address)
+        address_query.bandwidth = await client.get_bandwidth(address)
+        address_query.energy = await client.get_energy(address)
+        await uow.commit()
+
+    return address_query.balance, address_query.bandwidth, address_query.energy
