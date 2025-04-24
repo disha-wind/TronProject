@@ -1,4 +1,17 @@
 services:
+  api:
+    build:
+      context: src
+      dockerfile: Dockerfile
+    container_name: "tron_api"
+    env_file: src/.env
+    environment:
+      DB_HOST: database
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
   database:
     image: postgres
     container_name: "tron_postgres-db"
