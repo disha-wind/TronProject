@@ -1,3 +1,6 @@
+from decimal import Decimal
+from typing import Optional
+
 from tronpy.keys import is_base58check_address
 
 
@@ -9,9 +12,10 @@ class AddressQuery:
         else:
             raise ValueError("Invalid TRON address")
 
-        self.balance: float | None = None
-        self.bandwidth: int | None = None
-        self.energy: int | None = None
+        # Todo: m.b. setters and getters ?
+        self.balance: Optional[Decimal] = None
+        self.bandwidth: Optional[int] = None
+        self.energy: Optional[int] = None
 
     @staticmethod
     def is_tron_address(address: str):
