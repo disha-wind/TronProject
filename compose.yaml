@@ -1,0 +1,13 @@
+services:
+  database:
+    image: postgres
+    container_name: "tron_postgres-db"
+    env_file: src/.env
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "10145:5432"
