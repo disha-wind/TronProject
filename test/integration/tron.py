@@ -12,13 +12,13 @@ def tron():
 
 
 @pytest.fixture
-def tron_client(tron):
-    return TronClient(tron)
+def address():
+    return "TKDC6hVMnuFBWLsS8EL3PU44yLFrRnXMbC"
 
 
 @pytest.fixture
-def address():
-    return "TKDC6hVMnuFBWLsS8EL3PU44yLFrRnXMbC"
+def tron_client(tron, address):
+    return TronClient(tron, address)
 
 
 def test_is_exist_address(tron_client, address: str):
@@ -27,18 +27,18 @@ def test_is_exist_address(tron_client, address: str):
 
 
 async def test_get_tron_balance(tron_client, address: str):
-    balance = await tron_client.get_balance(address)
+    balance = await tron_client.get_balance()
 
     assert balance == Decimal(0)
 
 
 async def test_get_tron_bandwidth(tron_client, address: str):
-    bandwidth = await tron_client.get_bandwidth(address)
+    bandwidth = await tron_client.get_bandwidth()
 
     assert bandwidth == 0
 
 
 async def test_get_tron_energy(tron_client, address: str):
-    energy = await tron_client.get_energy(address)
+    energy = await tron_client.get_energy()
 
     assert energy == 0

@@ -43,7 +43,7 @@ class TronClient(AbstractTronClient):
         account = self.client.get_account(self.address)
         return account.get("energy_usage", 0)
 
-    def __is_exist_address(self, address: str) -> bool:
+    def is_exist_address(self, address: str) -> bool:
         try:
             self.client.get_account(address)
             return True
