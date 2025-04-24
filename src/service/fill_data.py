@@ -9,10 +9,11 @@ async def fill_data_from_tron_net(uow: AbstractUnitOfWork, client: AbstractTronC
         -> (Decimal, int, int):
     address_query = AddressQuery(address)
 
-    with uow:
-        address_query.balance = await client.get_balance(address)
-        address_query.bandwidth = await client.get_bandwidth(address)
-        address_query.energy = await client.get_energy(address)
+    async with uow:
+        address_query.balance = await client.get_balance()
+        address_query.bandwidth = await client.get_bandwidth()
+        address_query.energy = await client.get_energy()
+        await uow.addresses.add_address_query(address_query)
         await uow.commit()
 
     return address_query.balance, address_query.bandwidth, address_query.energy

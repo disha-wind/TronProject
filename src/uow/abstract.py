@@ -7,15 +7,16 @@ class AbstractUnitOfWork(ABC):
     addresses: AbstractRepository
 
     @abstractmethod
-    async def commit(self):
+    async def commit(self) -> None:
         pass
 
     @abstractmethod
-    async def rollback(self):
+    async def rollback(self) -> None:
         pass
 
     async def __aenter__(self):
         pass
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self.rollback()
+        if exc_type:
+            await self.rollback()

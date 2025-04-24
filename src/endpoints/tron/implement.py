@@ -8,46 +8,42 @@ from endpoints.tron.abstract import AbstractTronClient
 
 class TronClient(AbstractTronClient):
 
-    def __init__(self, client: Tron):
+    def __init__(self, client: Tron, address: str) -> None:
         self.client = client
+        if self.__is_exist_address(address):
+            self.address = address
+        else:
+            # Todo: add new exception
+            raise NotImplementedError
 
-    async def get_balance(self, address: str) -> Decimal:
+    async def get_balance(self) -> Decimal:
         """Get TRX balance for the given TRON address.
-
-        Args:
-            address: TRON address to check balance for
 
         Returns:
             Balance in TRX as Decimal
         """
-        balance = self.client.get_account_balance(address)
+        balance = self.client.get_account_balance(self.address)
         return Decimal(str(balance))
 
-    async def get_bandwidth(self, address: str) -> int:
+    async def get_bandwidth(self) -> int:
         """Get bandwidth information for the given TRON address.
-
-        Args:
-            address: TRON address to check bandwidth for
 
         Returns:
             Available bandwidth as integer
         """
-        account = self.client.get_account(address)
+        account = self.client.get_account(self.address)
         return account.get("net_usage", 0)
 
-    async def get_energy(self, address: str) -> int:
+    async def get_energy(self) -> int:
         """Get energy information for the given TRON address.
-
-        Args:
-            address: TRON address to check energy for
 
         Returns:
             Available energy as integer
         """
-        account = self.client.get_account(address)
+        account = self.client.get_account(self.address)
         return account.get("energy_usage", 0)
 
-    def is_exist_address(self, address: str) -> bool:
+    def __is_exist_address(self, address: str) -> bool:
         try:
             self.client.get_account(address)
             return True
