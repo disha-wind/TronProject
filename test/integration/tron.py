@@ -3,7 +3,7 @@ from decimal import Decimal
 import pytest
 from tronpy import Tron
 
-from endpoints.tron.implement import TronClient
+from endpoints.tron.tronpy import TronClient
 
 
 @pytest.fixture
