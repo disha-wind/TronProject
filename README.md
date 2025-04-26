@@ -1,6 +1,7 @@
 # TRON Blockchain API
 
-This project provides an API for interacting with the TRON blockchain. It allows querying address information and transaction history (under development).
+This project provides an API for interacting with the TRON blockchain.
+It allows querying address information and transaction history.
 
 ## Endpoints
 
@@ -21,9 +22,44 @@ Retrieves information about a TRON address, including:
 }
 ```
 
-### 2. `/history` (Under Development)
+### 2. `/history` (Implemented)
 
-This endpoint will allow querying transaction history for a TRON address.
+Retrieves a paginated list of TRON addresses with their information, including:
+- Address
+- Balance
+- Bandwidth
+- Energy
+
+**Example request:**  
+`GET /history`
+```json
+{
+    "limit": 10,
+    "offset": 0
+}
+```
+
+Where:
+- `limit`: Number of records to return (must be greater than 0)
+- `offset`: Number of records to skip (must be greater than or equal to 0)
+
+**Example response:**
+```json
+[
+  {
+    "address": "TRon_address_1",
+    "balance": "100.5",
+    "bandwidth": 2000,
+    "energy": 1500
+  },
+  {
+    "address": "TRon_address_2",
+    "balance": "250.75",
+    "bandwidth": 3000,
+    "energy": 2000
+  }
+]
+```
 
 ## Environment Configuration
 
