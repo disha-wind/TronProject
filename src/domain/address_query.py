@@ -36,3 +36,11 @@ class AddressQuery:
                 self.balance == other.balance and
                 self.bandwidth == other.bandwidth and
                 self.energy == other.energy)
+
+    def to_json(self):
+        return {
+            'address': self.address,
+            'balance': str(self.balance) if self.balance else None,
+            'bandwidth': self.bandwidth,
+            'energy': self.energy
+        }
