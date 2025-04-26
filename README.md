@@ -13,9 +13,9 @@ Retrieves information about a TRON address, including:
 - Bandwidth
 - Energy
 
-**Example request:**
+**Example request:**  
+`POST /address`
 ```json
-POST /address
 {
     "address": "TRon_address_here"
 }
