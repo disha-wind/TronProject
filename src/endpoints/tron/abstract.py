@@ -3,6 +3,9 @@ from decimal import Decimal
 
 
 class AbstractTronClient:
+    @abstractmethod
+    async def load_account(self, address: str) -> None:
+        pass
 
     @abstractmethod
     async def get_balance(self) -> Decimal:

@@ -4,16 +4,21 @@ from tronpy import Tron
 from tronpy.exceptions import AddressNotFound
 
 from endpoints.tron.abstract import AbstractTronClient
+from exaption.tron import TronAddressNotFound
 
 
 class TronClient(AbstractTronClient):
 
-    def __init__(self, client: Tron, address: str) -> None:
+    def __init__(self, client: Tron) -> None:
+
         self.client = client
+        self.account = None
+
+    async def load_account(self, address: str) -> None:
         try:
-            self.account = client.get_account(address)
+            self.account = self.client.get_account(address)
         except AddressNotFound:
-            raise AddressNotFound
+            raise TronAddressNotFound(address)
 
     async def get_balance(self) -> Decimal:
         """Get TRX balance for the given TRON address.

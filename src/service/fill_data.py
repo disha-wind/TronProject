@@ -8,6 +8,7 @@ from uow.abstract import AbstractUnitOfWork
 async def fill_data_from_tron_net(uow: AbstractUnitOfWork, client: AbstractTronClient, address: str)\
         -> (Decimal, int, int):
     address_query = AddressQuery(address)
+    await client.load_account(address_query.address)
     balance = await client.get_balance()
     bandwidth = await client.get_bandwidth()
     energy = await client.get_energy()

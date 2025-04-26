@@ -3,6 +3,8 @@ from typing import Optional
 
 from tronpy.keys import is_base58check_address
 
+from exaption.tron import TronAddressIncorrectFormat
+
 
 class AddressQuery:
     def __init__(self, address: str,
@@ -13,7 +15,7 @@ class AddressQuery:
         if self.__is_tron_address(address):
             self.address = address
         else:
-            raise ValueError("Invalid TRON address")
+            raise TronAddressIncorrectFormat
 
         # Todo: m.b. setters and getters ?
         self.balance = balance
@@ -24,7 +26,7 @@ class AddressQuery:
     def __is_tron_address(address: str):
         try:
             return is_base58check_address(address)
-        except IndexError:
+        except (IndexError, ValueError):
             return False
 
     def __eq__(self, other):
